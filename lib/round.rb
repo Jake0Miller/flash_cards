@@ -21,7 +21,7 @@ class Round
   end
 
   def percent_correct
-
+    @number_correct / @turns.length.to_f
   end
 
   def percent_correct_by_category
