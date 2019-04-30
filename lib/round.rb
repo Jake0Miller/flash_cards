@@ -4,8 +4,8 @@ class Round
   def initialize(deck)
     @deck = deck
     @turns = []
-    if deck.length > 0
-      @current_card = deck[0]
+    if deck.cards.length > 0
+      @current_card = deck.cards[0]
     else
       @current_card = nil
     end
