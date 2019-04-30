@@ -17,7 +17,10 @@ class Round
   end
 
   def number_correct_by_category(category)
-
+    category_list = @turns.select do |turn|
+      turn.card.category == category
+    end
+    category_list.length
   end
 
   def percent_correct
