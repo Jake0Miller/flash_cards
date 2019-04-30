@@ -10,7 +10,7 @@ class Deck
   end
 
   def cards_in_category(category)
-    temp_list = @cards.select do |card|
+    category_list = @cards.select do |card|
       card.category == category
     end
   end
