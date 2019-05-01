@@ -1,5 +1,6 @@
 class Round
-  attr_reader :deck, :turns, :current_card, :number_correct, :discard_pile
+  attr_reader :deck, :turns, :current_card,
+    :number_correct, :discard_pile
 
   def initialize(deck)
     @deck = deck
@@ -11,7 +12,7 @@ class Round
 
   def set_first_card
     if @deck.count > 0
-      @current_card = deck.cards.shift
+      @current_card = @deck.cards.shift
     else
       p "We're out of cards!"
       @current_card = nil
@@ -31,7 +32,7 @@ class Round
 
   def number_correct_by_category(category)
     category_list = @turns.select do |turn|
-      turn.card.category == category and turn.correct?
+      turn.card.category == category && turn.correct?
     end
     category_list.length
   end
