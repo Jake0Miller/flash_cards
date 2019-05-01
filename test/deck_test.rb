@@ -39,13 +39,21 @@ class DeckTest < Minitest::Test
     assert_equal direction_card, deck.cards[2]
   end
 
+<<<<<<< HEAD
   def test_count_cards
+=======
+  def test_count
+>>>>>>> 5ef87f277b68c17b15e9da5efa6f56c1cbecd7da
     alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
     deck = Deck.new([alaska_card, mars_card, direction_card])
 
+<<<<<<< HEAD
     assert_equal 3, deck.count_cards
+=======
+    assert_equal 3, deck.count
+>>>>>>> 5ef87f277b68c17b15e9da5efa6f56c1cbecd7da
   end
 
   def test_cards_in_category
@@ -54,9 +62,15 @@ class DeckTest < Minitest::Test
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
     deck = Deck.new([alaska_card, mars_card, direction_card])
 
+<<<<<<< HEAD
     assert_equal 1, deck.cards_in_category(:Geography).length
     assert_equal alaska_card, deck.cards_in_category(:Geography)[0]
     assert_equal 2, deck.cards_in_category(:STEM).length
+=======
+    assert_equal 1, deck.cards_in_category(:Geography).count
+    assert_equal alaska_card, deck.cards_in_category(:Geography)[0]
+    assert_equal 2, deck.cards_in_category(:STEM).count
+>>>>>>> 5ef87f277b68c17b15e9da5efa6f56c1cbecd7da
     assert_equal mars_card, deck.cards_in_category(:STEM)[0]
     assert_equal direction_card, deck.cards_in_category(:STEM)[1]
   end
