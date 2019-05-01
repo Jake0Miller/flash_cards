@@ -3,6 +3,8 @@ require 'minitest/pride'
 require './lib/card'
 require './lib/round'
 require './lib/deck'
+require './lib/turn'
+require 'pry'
 
 class RoundTest < Minitest::Test
   def test_it_exists
@@ -25,55 +27,65 @@ class RoundTest < Minitest::Test
     assert_instance_of Deck, round.deck
   end
 
-  def test_it_has_a_card
-    skip
-    card = Card.new("What is the capital of Alaska?", "Juneau", "Geography")
-    deck = Deck.new([card])
-
-    assert_instance_of Card, deck.cards[0]
-  end
-
-  def test_card_matches
-    skip
-    card = Card.new("What is the capital of Alaska?", "Juneau", "Geography")
-    deck = Deck.new([card])
-
-    assert_equal card, deck.cards[0]
-  end
-
-  def test_all_cards_match
-    skip
+  def test_cards
     alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
-    deck = Deck.new([alaska_card, mars_card, direction_card])
+    card_array = [alaska_card, mars_card, direction_card]
+    deck = Deck.new(card_array)
 
+    assert_instance_of Card, deck.cards[0]
+    assert_instance_of Card, deck.cards[1]
+    assert_instance_of Card, deck.cards[2]
+    assert_equal 3, deck.cards.count
     assert_equal alaska_card, deck.cards[0]
     assert_equal mars_card, deck.cards[1]
     assert_equal direction_card, deck.cards[2]
+
+    round = Round.new(deck)
+
+    assert_instance_of Card, round.deck.cards[0]
+    assert_instance_of Card, round.deck.cards[1]
+    assert_equal 2, round.deck.cards.count
+    assert_equal mars_card, round.deck.cards[0]
+    assert_equal direction_card, round.deck.cards[1]
   end
 
-  def test_count
-    skip
+  def test_that_take_turn_returns_turn
     alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
     deck = Deck.new([alaska_card, mars_card, direction_card])
+    round = Round.new(deck)
 
-    assert_equal 3, deck.count
+    assert_instance_of Turn, round.take_turn("Juneau")
   end
 
-  def test_cards_in_category
-    skip
+  def test_take_turn_updates_status
     alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
     deck = Deck.new([alaska_card, mars_card, direction_card])
+    round = Round.new(deck)
+    round.take_turn("Juneau")
 
-    assert_equal 1, deck.cards_in_category(:Geography).count
-    assert_equal alaska_card, deck.cards_in_category(:Geography)[0]
-    assert_equal 2, deck.cards_in_category(:STEM).count
-    assert_equal mars_card, deck.cards_in_category(:STEM)[0]
-    assert_equal direction_card, deck.cards_in_category(:STEM)[1]
+    assert_equal alaska_card, round.discard_pile[0]
+    assert_equal 1, round.number_correct
+    assert_equal 1, round.turns.length
+    assert_equal mars_card, round.current_card
+  end
+
+  def test_take_turn_with_incorrect_guess
+    alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
+    mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
+    direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
+    deck = Deck.new([alaska_card, mars_card, direction_card])
+    round = Round.new(deck)
+    round.take_turn("Anchorage")
+
+    assert_equal alaska_card, round.discard_pile[0]
+    assert_equal 0, round.number_correct
+    assert_equal 1, round.turns.length
+    assert_equal mars_card, round.current_card
   end
 end

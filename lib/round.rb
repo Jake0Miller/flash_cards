@@ -1,19 +1,31 @@
 class Round
-  attr_reader :deck, :turns, :current_card, :number_correct
+  attr_reader :deck, :turns, :current_card, :number_correct, :discard_pile
 
   def initialize(deck)
     @deck = deck
     @turns = []
-    if deck.cards.length > 0
-      @current_card = deck.cards[0]
+    @discard_pile = []
+    @number_correct = 0
+    set_first_card
+  end
+
+  def set_first_card
+    if @deck.count > 0
+      @current_card = deck.cards.shift
     else
       @current_card = nil
     end
-    @number_correct = 0
   end
 
   def take_turn(guess)
-
+    this_turn = Turn.new(guess,@current_card)
+    if this_turn.correct?
+      @number_correct += 1
+    end
+    @discard_pile.push(@current_card)
+    @current_card = deck.cards.shift
+    @turns.push(this_turn)
+    this_turn
   end
 
   def number_correct_by_category(category)
