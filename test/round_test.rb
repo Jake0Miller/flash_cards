@@ -89,7 +89,7 @@ class RoundTest < Minitest::Test
     assert_equal mars_card, round.current_card
   end
 
-  def test_correct_by_category
+  def test_number_correct_by_category
     alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
@@ -102,5 +102,20 @@ class RoundTest < Minitest::Test
     assert_equal 2, round.number_correct
     assert_equal 1, round.number_correct_by_category(:Geography)
     assert_equal 1, round.number_correct_by_category(:STEM)
+  end
+
+  def test_percent_correct_and_percent_correct_by_category
+    alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
+    mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
+    direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
+    deck = Deck.new([alaska_card, mars_card, direction_card])
+    round = Round.new(deck)
+    round.take_turn("Juneau")
+    round.take_turn("Mars")
+    round.take_turn("Kanye")
+
+    assert_equal 0.67, round.percent_correct
+    assert_equal 1.00, round.percent_correct_by_category(:Geography)
+    assert_equal 0.50, round.percent_correct_by_category(:STEM)
   end
 end
