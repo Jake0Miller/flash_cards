@@ -14,7 +14,7 @@ class Round
     if @deck.count_cards > 0
       @current_card = @deck.cards.shift
     else
-      p "We're out of cards!"
+      p "We don't have any cards!"
       @current_card = nil
     end
   end
@@ -28,8 +28,11 @@ class Round
     if @deck.count_cards > 0
       @current_card = deck.cards.shift
     else
-      p "We're out of cards!"
-      @current_card = nil
+      p "We're out of cards! Shuffle up the deck."
+      @discard_pile.shuffle!
+      @deck = @discard_pile
+      set_first_card
+      @discard_pile = []
     end
     @turns.push(this_turn)
     this_turn
