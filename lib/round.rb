@@ -37,7 +37,7 @@ class Round
 
   def shuffle_cards
     @discard_pile.shuffle!
-    @deck = @discard_pile
+    @deck = Deck.new(@discard_pile)
     set_first_card
     @discard_pile = []
   end
