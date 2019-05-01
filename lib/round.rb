@@ -13,6 +13,7 @@ class Round
     if @deck.count > 0
       @current_card = deck.cards.shift
     else
+      p "We're out of cards!"
       @current_card = nil
     end
   end
@@ -30,7 +31,7 @@ class Round
 
   def number_correct_by_category(category)
     category_list = @turns.select do |turn|
-      turn.card.category == category
+      turn.card.category == category and turn.correct?
     end
     category_list.length
   end
