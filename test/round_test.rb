@@ -7,14 +7,12 @@ require './lib/turn'
 require 'pry'
 
 class RoundTest < Minitest::Test
-  attr_reader :alaska_card, :mars_card, :direction_card, :deck, :round
-
   def setup
     @alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     @mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
     @direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
-    @deck = Deck.new([alaska_card, mars_card, direction_card])
-    @round = Round.new(deck)
+    @deck = Deck.new([@alaska_card, @mars_card, @direction_card])
+    @round = Round.new(@deck)
   end
 
   def test_it_exists
@@ -32,17 +30,17 @@ class RoundTest < Minitest::Test
     assert_instance_of Card, deck.cards[1]
     assert_instance_of Card, deck.cards[2]
     assert_equal 3, deck.count_cards
-    assert_equal alaska_card, deck.cards[0]
-    assert_equal mars_card, deck.cards[1]
-    assert_equal direction_card, deck.cards[2]
+    assert_equal @alaska_card, deck.cards[0]
+    assert_equal @mars_card, deck.cards[1]
+    assert_equal @direction_card, deck.cards[2]
 
     round = Round.new(deck)
 
     assert_instance_of Card, round.deck.cards[0]
     assert_instance_of Card, round.deck.cards[1]
     assert_equal 2, round.deck.count_cards
-    assert_equal mars_card, round.deck.cards[0]
-    assert_equal direction_card, round.deck.cards[1]
+    assert_equal @mars_card, round.deck.cards[0]
+    assert_equal @direction_card, round.deck.cards[1]
   end
 
   def test_that_take_turn_returns_turn
