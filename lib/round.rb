@@ -29,13 +29,17 @@ class Round
       @current_card = deck.cards.shift
     else
       p "We're out of cards! Shuffle up the deck."
-      @discard_pile.shuffle!
-      @deck = @discard_pile
-      set_first_card
-      @discard_pile = []
+      shuffle_cards
     end
     @turns.push(this_turn)
     this_turn
+  end
+
+  def shuffle_cards
+    @discard_pile.shuffle!
+    @deck = @discard_pile
+    set_first_card
+    @discard_pile = []
   end
 
   def number_correct_by_category(category)
