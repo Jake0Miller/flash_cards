@@ -25,13 +25,12 @@ class Round
     this_turn = Turn.new(guess,@current_card)
 
     cur_cat = @current_card.category
+    @num_correct_by_category[cur_cat] ||= 0
+    @num_cards_by_category[cur_cat] ||= 0
     if this_turn.correct?
-      @num_correct_by_category[cur_cat] ||= 0
       @num_correct_by_category[cur_cat] += 1
       @number_correct += 1
     end
-
-    @num_cards_by_category[cur_cat] ||= 0
     @num_cards_by_category[cur_cat] += 1
 
     @discard_pile.push(@current_card)
