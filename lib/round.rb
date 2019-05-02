@@ -56,8 +56,7 @@ class Round
   end
 
   def number_correct_by_category(category)
-    #category_list = @turns.select { |turn| turn.card.category == category && turn.correct? }
-    #category_list.length
+    #(@turns.select { |turn| turn.card.category == category && turn.correct? }).length
     @num_correct_by_category[category]
   end
 
@@ -66,10 +65,7 @@ class Round
   end
 
   def number_turns_by_category(category)
-    #category_list = @turns.select do |turn|
-      #turn.card.category == category
-    #end
-    #category_list.length
+    #(@turns.select { |turn| turn.card.category == category }).length
     @num_cards_by_category[category]
   end
 
@@ -78,14 +74,6 @@ class Round
   end
 
   def get_all_categories
-    #categories = Set[]
-    #@deck.cards.each do |card|
-      #categories.add(card.category)
-    #end
-    #@discard_pile.each do |card|
-      #categories.add(card.category)
-    #end
-    #categories
     @num_cards_by_category.keys
   end
 end
