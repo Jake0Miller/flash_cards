@@ -9,7 +9,8 @@ class Round
     @turns = []
     @discard_pile = []
     @number_correct = 0
-    @num_correct_and_num_cards_by_category = Hash.new
+    @num_correct_by_category = Hash.new
+    @num_cards_by_category = Hash.new
     set_first_card
   end
 
@@ -27,20 +28,13 @@ class Round
 
     cur_cat = @current_card.category
     if this_turn.correct?
-      if @num_correct_and_num_cards_by_category[cur_cat] == nil
-        @num_correct_and_num_cards_by_category[cur_cat] = [1,1]
-      else
-        @num_correct_and_num_cards_by_category[cur_cat][0] += 1
-        @num_correct_and_num_cards_by_category[cur_cat][1] += 1
-      end
+      @num_correct_by_category[cur_cat] ||= 0
+      @num_correct_by_category[cur_cat] += 1
       @number_correct += 1
-    else
-      if @num_correct_and_num_cards_by_category[cur_cat] == nil
-        @num_correct_and_num_cards_by_category[cur_cat] = [0,1]
-      else
-        @num_correct_and_num_cards_by_category[cur_cat][1] += 1
-      end
     end
+
+    @num_cards_by_category[cur_cat] ||= 0
+    @num_cards_by_category[cur_cat] += 1
 
     @discard_pile.push(@current_card)
 
@@ -64,7 +58,7 @@ class Round
   def number_correct_by_category(category)
     #category_list = @turns.select { |turn| turn.card.category == category && turn.correct? }
     #category_list.length
-    @num_correct_and_num_cards_by_category[category][0]
+    @num_correct_by_category[category]
   end
 
   def percent_correct
@@ -76,7 +70,7 @@ class Round
       #turn.card.category == category
     #end
     #category_list.length
-    @num_correct_and_num_cards_by_category[category][1]
+    @num_cards_by_category[category]
   end
 
   def percent_correct_by_category(category)
@@ -92,6 +86,6 @@ class Round
       #categories.add(card.category)
     #end
     #categories
-    @num_correct_and_num_cards_by_category.keys
+    @num_cards_by_category.keys
   end
 end
