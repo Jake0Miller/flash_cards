@@ -11,7 +11,7 @@ class CardGenerator
   def create_cards
     cards = []
     IO.foreach(@file) do |line|
-      split_line = line.split(',')
+      split_line = line.chomp.split(',')
       cards << Card.new(split_line[0],split_line[1],split_line[2].to_sym)
     end
     cards
