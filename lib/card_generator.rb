@@ -4,12 +4,16 @@ class CardGenerator
   attr_reader :cards
 
   def initialize(file)
-    @file = File.open(file, "r")
+    @file = file
+    @cards = create_cards
+  end
 
-    alaska_card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
-    mars_card = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars", :STEM)
-    direction_card = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west", :STEM)
-    cards = [alaska_card, mars_card, direction_card]
-    @cards = cards
+  def create_cards
+    cards = []
+    IO.foreach(@file) do |line|
+      split_line = line.split(',')
+      cards << Card.new(split_line[0],split_line[1],split_line[2].to_sym)
+    end
+    cards
   end
 end
