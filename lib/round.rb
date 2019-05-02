@@ -1,5 +1,3 @@
-require 'set'
-
 class Round
   attr_reader :deck, :turns, :current_card,
     :number_correct, :discard_pile
