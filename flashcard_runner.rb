@@ -13,8 +13,50 @@ round = Round.new(deck)
 def start(round)
   puts "Welcome! You're playing with 4 cards."
   puts "-------------------------------------------------"
-  puts "This is card number #{round.turns.length + 1} out of #{round.deck.count_cards + 1}."
+  num_turns = round.deck.count_cards + 1
+
+  draw_all_cards(num_turns, round)
+
+  puts "****** Game over! ******"
+  display_number_correct(num_turns, round)
+  display_correct_by_category(num_turns, round)
+end
+
+def display_correct_by_category(num_turns, round)
+  round.get_all_categories.each do |category|
+    puts "#{category} - #{convert_percent_to_display(round.percent_correct_by_category(category))}% correct"
+  end
+end
+
+def display_number_correct(num_turns, round)
+  num_correct = round.number_correct
+  if num_correct == 1
+    puts "You had 1 correct guess out of #{num_turns} for a total score of #{convert_percent_to_display(round.percent_correct)}%."
+  else
+    puts "You had #{num_correct} correct guesses out of #{num_turns} for a total score of #{convert_percent_to_display(round.percent_correct)}%."
+  end
+end
+
+def convert_percent_to_display(num)
+  (num*100).to_i
+end
+
+def display_question(num_turns, round)
+  puts "This is card number #{round.turns.length + 1} out of #{num_turns}."
   puts "Question: #{round.current_card.question}"
+end
+
+def get_user_answer
+  puts "What is the answer?"
+  gets.chomp
+end
+
+def draw_all_cards(num_turns, round)
+  for i in 1..num_turns do
+    display_question(num_turns, round)
+    cur_turn = round.take_turn(get_user_answer)
+    puts cur_turn.feedback
+  end
 end
 
 start(round)
