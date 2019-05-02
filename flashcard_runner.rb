@@ -11,9 +11,9 @@ deck = Deck.new([alaska_card, mars_card, direction_card])
 round = Round.new(deck)
 
 def start(round)
-  puts "Welcome! You're playing with 4 cards."
-  puts "-------------------------------------------------"
   num_turns = round.deck.count_cards + 1
+  puts "Welcome! You're playing with #{num_turns} cards."
+  puts "-------------------------------------------------"
 
   draw_all_cards(num_turns, round)
 
