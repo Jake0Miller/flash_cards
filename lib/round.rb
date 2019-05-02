@@ -1,3 +1,5 @@
+require 'set'
+
 class Round
   attr_reader :deck, :turns, :current_card,
     :number_correct, :discard_pile
@@ -28,7 +30,6 @@ class Round
     if @deck.count_cards > 0
       @current_card = deck.cards.shift
     else
-      p "We're out of cards! Shuffle up the deck."
       shuffle_cards
     end
     @turns.push(this_turn)
@@ -62,5 +63,16 @@ class Round
 
   def percent_correct_by_category(category)
     (number_correct_by_category(category) / number_turns_by_category(category).to_f).round(2)
+  end
+
+  def get_all_categories
+    categories = Set[]
+    @deck.cards.each do |card|
+      categories.add(card.category)
+    end
+    @discard_pile.each do |card|
+      categories.add(card.category)
+    end
+    categories
   end
 end
