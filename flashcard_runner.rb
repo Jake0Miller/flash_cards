@@ -20,6 +20,18 @@ def start(round)
   puts "****** Game over! ******"
   display_number_correct(num_turns, round)
   display_correct_by_category(num_turns, round)
+
+  play_again?(round)
+end
+
+def play_again?(round)
+  puts "Shuffle cards and play again? Yes\ No"
+  answer = gets.chomp
+  if answer != "Yes"
+    exit
+  else
+    start(round)
+  end
 end
 
 def display_correct_by_category(num_turns, round)
