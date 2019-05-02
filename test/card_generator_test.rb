@@ -30,4 +30,8 @@ class CardGeneratorTest < Minitest::Test
   def test_creates_card_category
     assert_equal @alaska_card.category, @card_gen.cards[0].category
   end
+
+  def test_multi_word_category
+    assert_equal :Turing_Staff, @card_gen.cards[4].category
+  end
 end
