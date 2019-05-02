@@ -7,6 +7,8 @@ class Round
     @turns = []
     @discard_pile = []
     @number_correct = 0
+    @num_correct_by_category = Hash.new
+    @num_cards_by_category = Hash.new
     set_first_card
   end
 
@@ -21,16 +23,25 @@ class Round
 
   def take_turn(guess)
     this_turn = Turn.new(guess,@current_card)
+
+    cur_cat = @current_card.category
     if this_turn.correct?
+      @num_correct_by_category[cur_cat] ||= 0
+      @num_correct_by_category[cur_cat] += 1
       @number_correct += 1
     end
+
+    @num_cards_by_category[cur_cat] ||= 0
+    @num_cards_by_category[cur_cat] += 1
+
     @discard_pile.push(@current_card)
+
     if @deck.count_cards > 0
       @current_card = deck.cards.shift
     else
-      p "We're out of cards! Shuffle up the deck."
       shuffle_cards
     end
+
     @turns.push(this_turn)
     this_turn
   end
@@ -43,10 +54,8 @@ class Round
   end
 
   def number_correct_by_category(category)
-    category_list = @turns.select do |turn|
-      turn.card.category == category && turn.correct?
-    end
-    category_list.length
+    #(@turns.select { |turn| turn.card.category == category && turn.correct? }).length
+    @num_correct_by_category[category]
   end
 
   def percent_correct
@@ -54,13 +63,15 @@ class Round
   end
 
   def number_turns_by_category(category)
-    category_list = @turns.select do |turn|
-      turn.card.category == category
-    end
-    category_list.length
+    #(@turns.select { |turn| turn.card.category == category }).length
+    @num_cards_by_category[category]
   end
 
   def percent_correct_by_category(category)
     (number_correct_by_category(category) / number_turns_by_category(category).to_f).round(2)
+  end
+
+  def get_all_categories
+    @num_cards_by_category.keys
   end
 end
