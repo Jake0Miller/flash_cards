@@ -63,7 +63,7 @@ def get_user_answer
 end
 
 def draw_all_cards(num_turns, round)
-  for i in 1..num_turns do
+  num_turns.times do
     display_question(num_turns, round)
     cur_turn = round.take_turn(get_user_answer)
     puts cur_turn.feedback
