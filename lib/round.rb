@@ -1,55 +1,47 @@
 class Round
-  attr_reader :deck, :turns, :current_card,
-    :number_correct, :discard_pile
+  attr_reader :deck, :turns, :current_card, :number_correct
 
   def initialize(deck)
     @deck = deck
     @turns = []
-    @discard_pile = []
+    set_first_card
     @number_correct = 0
     @num_correct_by_category = Hash.new
     @num_cards_by_category = Hash.new
-    set_first_card
   end
 
   def set_first_card
-    if @deck.count_cards > 0
-      @current_card = @deck.cards.shift
-    else
-      p "We don't have any cards!"
-      @current_card = nil
-    end
+    @current_card_number = 0
+    @current_card = deck.cards[@current_card_number]
   end
 
   def take_turn(guess)
-    this_turn = Turn.new(guess,@current_card)
-
+    cur_turn = Turn.new(guess,@current_card)
     cur_cat = @current_card.category
+
     @num_correct_by_category[cur_cat] ||= 0
-    @num_cards_by_category[cur_cat] ||= 0
-    if this_turn.correct?
+    if cur_turn.correct?
       @num_correct_by_category[cur_cat] += 1
       @number_correct += 1
     end
+
+    @num_cards_by_category[cur_cat] ||= 0
     @num_cards_by_category[cur_cat] += 1
 
-    @discard_pile.push(@current_card)
-
-    if @deck.count_cards > 0
-      @current_card = deck.cards.shift
+    if @current_card_number < @deck.count_cards-1
+      @current_card_number += 1
+      @current_card = @deck.cards[@current_card_number]
     else
       shuffle_cards
     end
 
-    @turns.push(this_turn)
-    this_turn
+    @turns.push(cur_turn)
+    cur_turn
   end
 
   def shuffle_cards
-    @discard_pile.shuffle!
-    @deck = Deck.new(@discard_pile)
+    @deck.cards.shuffle!
     set_first_card
-    @discard_pile = []
   end
 
   def number_correct_by_category(category)
