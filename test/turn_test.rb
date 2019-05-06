@@ -5,7 +5,7 @@ require './lib/turn'
 
 class TurnTest < Minitest::Test
   def setup
-    @card = Card.new("What is the capital of Alaska?", "Juneau", :Geograph)
+    @card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     @turn = Turn.new("Juneau", @card)
   end
 
@@ -28,7 +28,8 @@ class TurnTest < Minitest::Test
   def test_guess_is_incorrect
     turn = Turn.new("Seattle", @card)
 
-    refute "Juneau" == turn.guess
+    #refute_equal "Juneau", turn.guess
+    refute turn.correct?
   end
 
   def test_correct_guess_is_correct
@@ -36,7 +37,9 @@ class TurnTest < Minitest::Test
   end
 
   def test_incorrect_guess_is_incorrect
-    refute @turn.correct?
+    turn = Turn.new("Seattle", @card)
+
+    refute turn.correct?
   end
 
   def test_correct_guess_feedback

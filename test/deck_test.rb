@@ -36,9 +36,8 @@ class DeckTest < Minitest::Test
 
   def test_cards_in_category
     assert_equal 1, @deck.cards_in_category(:Geography).length
-    assert_equal @alaska_card, @deck.cards_in_category(:Geography)[0]
+    assert_equal [@alaska_card], @deck.cards_in_category(:Geography)
     assert_equal 2, @deck.cards_in_category(:STEM).length
-    assert_equal @mars_card, @deck.cards_in_category(:STEM)[0]
-    assert_equal @direction_card, @deck.cards_in_category(:STEM)[1]
+    assert_equal [@mars_card, @direction_card], @deck.cards_in_category(:STEM)
   end
 end

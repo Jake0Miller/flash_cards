@@ -6,8 +6,8 @@ class Round
     @turns = []
     set_first_card
     @number_correct = 0
-    @num_correct_by_category = Hash.new
-    @num_cards_by_category = Hash.new
+    @num_correct_by_category = Hash.new {0}
+    @num_cards_by_category = Hash.new {0}
   end
 
   def set_first_card
@@ -19,13 +19,11 @@ class Round
     cur_turn = Turn.new(guess,@current_card)
     cur_cat = @current_card.category
 
-    @num_correct_by_category[cur_cat] ||= 0
     if cur_turn.correct?
       @num_correct_by_category[cur_cat] += 1
       @number_correct += 1
     end
 
-    @num_cards_by_category[cur_cat] ||= 0
     @num_cards_by_category[cur_cat] += 1
 
     if @current_card_number < @deck.count_cards-1
@@ -59,6 +57,7 @@ class Round
   end
 
   def percent_correct_by_category(category)
+    return 0 if number_turns_by_category(category) == 0
     (number_correct_by_category(category) / number_turns_by_category(category).to_f).round(2)
   end
 

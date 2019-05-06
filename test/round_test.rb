@@ -49,6 +49,7 @@ class RoundTest < Minitest::Test
     assert_equal 2, @round.number_correct
     assert_equal 1, @round.number_correct_by_category(:Geography)
     assert_equal 1, @round.number_correct_by_category(:STEM)
+    assert_equal 0, @round.number_correct_by_category(:History)
   end
 
   def test_percent_correct_and_percent_correct_by_category
@@ -59,6 +60,7 @@ class RoundTest < Minitest::Test
     assert_equal 0.67, @round.percent_correct
     assert_equal 1.00, @round.percent_correct_by_category(:Geography)
     assert_equal 0.50, @round.percent_correct_by_category(:STEM)
+    assert_equal 0.0, @round.percent_correct_by_category(:Clouds)
   end
 
   def test_shuffle_method

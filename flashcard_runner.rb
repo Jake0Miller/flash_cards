@@ -10,7 +10,7 @@ deck = Deck.new(cards)
 round = Round.new(deck)
 
 def start(round)
-  num_turns = round.deck.count_cards + 1
+  num_turns = round.deck.count_cards
   puts "Welcome! You're playing with #{num_turns} cards."
   puts "-------------------------------------------------"
 
